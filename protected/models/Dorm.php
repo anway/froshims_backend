@@ -18,7 +18,7 @@
  * @property Tournament[] $tournaments1
  * @property User[] $users
  */
-class Dorm extends CActiveRecord
+class Dorm extends OptionsBase //CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -107,9 +107,9 @@ class Dorm extends CActiveRecord
     /**
      * @return array of dorms, indexed by IDs
      */
-    public function getDormOptions()
+    /*public function getOptions()
     {
         $dormArray = CHtml::listData($this, 'id', 'name');
         return $dormArray;
-    }
+    }*/
 }

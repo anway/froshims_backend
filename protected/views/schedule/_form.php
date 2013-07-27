@@ -17,61 +17,78 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'s_id'); ?>
-		<?php echo $form->dropDownList($model,'s_id', $model->s->getSportOptions()); ?>
+<?php echo $form->dropDownList($model,'s_id', $sport->getOptions()); ?>
 		<?php echo $form->error($model,'s_id'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'date'); ?>
-		<?php echo $form->textField($model,'date'); ?>
-		<?php echo $form->error($model,'date'); ?>
-	</div>
+    <div class="row">
+        <?php echo $form->labelEx($model,'t1_id'); ?>
+    <?php echo $form->dropDownList($model,'t1_id', $dorm->getOptions()); ?>
+        <?php echo $form->error($model,'t1_id'); ?>
+    </div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'time'); ?>
-		<?php echo $form->textField($model,'time'); ?>
-		<?php echo $form->error($model,'time'); ?>
-	</div>
+    <div class="row">
+        <?php echo $form->labelEx($model,'t2_id'); ?>
+<?php echo $form->dropDownList($model,'t2_id', $dorm->getOptions()); ?>
+        <?php echo $form->error($model,'t2_id'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'date'); ?>
+        <?php Yii::import('application.extensions.CJuiDateTimePicker.CJuiDateTimePicker');
+            $this->widget(
+                          'CJuiDateTimePicker',
+                          array(
+                                'model' => $model,
+                                'attribute' => 'date',
+                                'language' => '',
+                                'mode' => 'date',
+                                'options' => array(
+                                        'dateFormat' => 'yy/mm/dd'
+                                    )
+                                )
+                          );
+        ?>
+    </div>
+
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'time'); ?>
+        <?php Yii::import('application.extensions.CJuiDateTimePicker.CJuiDateTimePicker');
+                $this->widget(
+                  'CJuiDateTimePicker',
+                  array(
+                        'model' => $model,
+                        'attribute' => 'time',
+                        'language' => '',
+                        'mode' => 'time',
+                        'options' => array(
+                                           'stepMinute' => 5,
+                                           'timeFormat' => 'hh:mm:ss',
+                                           'pickerTimeFormat' => 'h:mm tt'
+                            )
+                        )
+                  );
+            ?>
+    </div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'l_id'); ?>
-		<?php echo $form->dropDownList($model,'l_id', $model->l->getLocationOptions()); ?>
+        <?php echo $form->dropDownList($model,'l_id', $location->getOptions()); ?>
 		<?php echo $form->error($model,'l_id'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'t1_id'); ?>
-		<?php echo $form->dropDownList($model,'t1_id', $model->t1->getDormOptions()); ?>
-		<?php echo $form->error($model,'t1_id'); ?>
-	</div>
+    <?php echo $form->hiddenField($model, 'scoreReported', array('value'=> 0)); ?>
+    <?php echo $form->hiddenField($model, 'emailSent', array('value'=> 0)); ?>
+    <?php echo $form->hiddenField($model, 'reminderSent', array('value'=> 0)); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'t2_id'); ?>
-		<?php echo $form->dropDownList($model,'t2_id', $model->t2->getDormOptions()); ?>
-		<?php echo $form->error($model,'t2_id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'scoreReported'); ?>
-		<?php echo $form->textField($model,'scoreReported'); ?>
-		<?php echo $form->error($model,'scoreReported'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'emailSent'); ?>
-		<?php echo $form->textField($model,'emailSent'); ?>
-		<?php echo $form->error($model,'emailSent'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'reminderSent'); ?>
-		<?php echo $form->textField($model,'reminderSent'); ?>
-		<?php echo $form->error($model,'reminderSent'); ?>
-	</div>
-
-	<div class="row">
+    <div class="row">
 		<?php echo $form->labelEx($model,'type'); ?>
-		<?php echo $form->textField($model,'type'); ?>
+		<?php
+            $options = array(0 => 'Normal', 1 => 'Tournament');
+            echo $form->radioButtonList($model,'type', $options,
+                                        array('labelOptions'=>array('style'=>'display:inline'))
+                                        ); ?>
 		<?php echo $form->error($model,'type'); ?>
 	</div>
 

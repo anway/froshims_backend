@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'Froshims Backend',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -55,10 +55,10 @@ return array(
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=mysql.hcs.harvard.edu;dbname=froshims',
+			'connectionString' => 'mysql:host=localhost;dbname=froshims',
 			'emulatePrepare' => true,
-			'username' => 'froshims',
-			'password' => 'froshfrosh',
+			'username' => 'root',
+			'password' => '',
 			'charset' => 'utf8',
 		),
 		

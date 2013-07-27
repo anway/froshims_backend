@@ -13,7 +13,7 @@
  * @property SportSeasonAssoc[] $sportSeasonAssocs
  * @property User[] $tbUsers
  */
-class Sport extends CActiveRecord
+class Sport extends OptionsBase //CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -60,7 +60,8 @@ class Sport extends CActiveRecord
 		return array(
 			'schedules' => array(self::HAS_MANY, 'Schedule', 's_id'),
 			'sportSeasonAssocs' => array(self::HAS_MANY, 'SportSeasonAssoc', 's_id'),
-			'tbUsers' => array(self::MANY_MANY, 'User', 'tb_userSportAssoc(s_id, u_id)'),
+			//'tbUsers' => array(self::MANY_MANY, 'User', 'tb_userSportAssoc(s_id, u_id)'),
+            'userSportAssocs'=> array(self::HAS_MANY, 'UserSportAssoc', 's_id')
 		);
 	}
 
@@ -98,9 +99,9 @@ class Sport extends CActiveRecord
     /**
      * @return array of sports, indexed by IDs
      */
-    public function getSportOptions()
+    /*public function getSportOptions()
     {
         $sportArray = CHtml::listData($this, 'id', 'name');
         return $sportArray;
-    }
+    }*/
 }

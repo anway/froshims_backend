@@ -21,16 +21,18 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'id',
-		's_id',
+		/*'id',*/
+        array('label'=>'Sport', 'value'=>$model->s->name),
 		'date',
 		'time',
-		'l_id',
-		't1_id',
-		't2_id',
+		array('label'=>'Location', 'value'=>$model->l->name),
+		array('label'=>'Team1', 'value'=>$model->t1->name),
+		array('label'=>'Team2', 'value'=>$model->t2->name),
+        /*
 		'scoreReported',
 		'emailSent',
 		'reminderSent',
 		'type',
+        */
 	),
 )); ?>

@@ -1,6 +1,11 @@
 <?php
 /* @var $this SiteController */
-
+  /*
+        mysql_connect("localhost", "root", "") or die(mysql_error());
+        echo "Connected to MySQL<br />";
+        mysql_select_db("test") or die(mysql_error());
+        echo "Connected to Database";
+  */  
 $this->pageTitle=Yii::app()->name;
 ?>
 

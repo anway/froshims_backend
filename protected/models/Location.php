@@ -10,7 +10,7 @@
  * The followings are the available model relations:
  * @property Schedule[] $schedules
  */
-class Location extends CActiveRecord
+class Location extends OptionsBase //CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -90,9 +90,10 @@ class Location extends CActiveRecord
     /**
      * @return array of locations, indexed by IDs
      */
-    public function getLocationOptions()
+    /*public function getOptions()
     {
-        $locationArray = CHtml::listData($this, 'id', 'name');
+        $locations = $this->findAll('id>0');
+        $locationArray = CHtml::listData($locations, 'id', 'name');
         return $locationArray;
-    }
+    }*/
 }

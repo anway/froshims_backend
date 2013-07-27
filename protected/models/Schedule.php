@@ -52,11 +52,14 @@ class Schedule extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('s_id, date, time, l_id, t1_id, t2_id, scoreReported, emailSent, reminderSent, type', 'required'),
+			array('s_id, date, time, l_id, t1_id, t2_id, type', 'required'),
 			array('s_id, l_id, t1_id, t2_id, scoreReported, emailSent, reminderSent, type', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, s_id, date, time, l_id, t1_id, t2_id, scoreReported, emailSent, reminderSent, type', 'safe', 'on'=>'search'),
+            //array('scoreReported, emailSent, reminderSent', 'default', 'value' => 0 ),
+            array('t1_id', 'compare', 'compareAttribute'=>'t2_id', 'operator'=>'!='),
+            //array('t1_id', 'ext.UniqueAttributesValidator', 'with'=>'t2_id')
 		);
 	}
 
@@ -107,7 +110,20 @@ class Schedule extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+        
+        $criteria->with=array('s', 'l', 't1', 't2');
+        
+        $criteria->compare('t.id', $this->id);
+        $criteria->compare('s.name', $this->s_id, true);
+        $criteria->compare('t.date', $this->date);
+        $criteria->compare('l.name', $this->l_id, true);
+        $criteria->compare('t1.name', $this->t1_id, true);
+        $criteria->compare('t2.name', $this->t2_id, true);
+        $criteria->compare('t.type', $this->type);
+        
+        return new CActiveDataProvider(get_class($this), array('criteria'=>$criteria,));
 
+        /*
 		$criteria->compare('id',$this->id);
 		$criteria->compare('s_id',$this->s_id);
 		$criteria->compare('date',$this->date,true);
@@ -122,6 +138,7 @@ class Schedule extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-		));
+		));*/
 	}
+   
 }

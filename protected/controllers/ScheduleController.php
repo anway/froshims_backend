@@ -60,9 +60,13 @@ class ScheduleController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
+    /*
 	public function actionCreate()
 	{
-		$model=new Schedule;
+		$model = new Schedule;
+        $dorm = new Dorm;
+        $sport = new Sport;
+        $location = new Location;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -70,15 +74,80 @@ class ScheduleController extends Controller
 		if(isset($_POST['Schedule']))
 		{
 			$model->attributes=$_POST['Schedule'];
+            $model->scoreReported='0';
+            $model->emailSent='0';
+            $model->reminderSent='0';
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
+            'sport'=>$sport,
+            'location'=>$location,
+            'dorm'=>$dorm,
 		));
+	}*/
+    // attempt at BatchCreate
+    public function actionCreate()
+	{
+		$models = array();
+        $dorm = new Dorm;
+        $sport = new Sport;
+        $location = new Location;
+        $i=0;
+        while($i<24) {
+            $models[$i] = new Schedule;
+            $i++;
+        }
+        
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+        
+		if (isset($_POST['Schedule']))
+		{
+            $valid=true;
+            $oneval=false;
+            foreach ($_POST['Schedule'] as $j=>$model)
+            {
+                if (!empty($model->s_id) || !empty($model->date) || !empty($model->time) || !empty($model->l_id) || !empty($model->t1_id) || !empty($model->t2_id) || !empty($model->type))//(!empty($_POST['Schedule'][$j]))
+                {
+                    $oneval=true;
+                    $models[$j]=new Schedule;
+                    $models[$j]->attributes=$model;
+                    $models[$j]->scoreReported='0';
+                    $models[$j]->emailSent='0';
+                    $models[$j]->reminderSent='0';
+                    $valid = $models[$j]->validate() && $valid;
+                }
+            }
+            if ($valid && $oneval)
+            {
+                $i=0;
+                while ($i<24)//(isset($models[$i]))
+                {
+                    if (!empty($models[$i]->s_id) && !empty($models[$i]->date) && !empty($models[$i]->time) && !empty($models[$i]->l_id) && !empty($models[$i]->t1_id) && !empty($models[$i]->t2_id) && !empty($models[$i]->type))
+                    {
+                            $models[$i]->save(false);
+                    }
+                    $i++;
+                }
+                $this->redirect(array('index'));
+            }
+            /*
+            $model->scoreReported='0';
+            $model->emailSent='0';
+            $model->reminderSent='0';
+            */
+        }
+        
+		$this->render('create',array(
+                                     'models'=>$models,
+                                     'sport'=>$sport,
+                                     'location'=>$location,
+                                     'dorm'=>$dorm,
+                                     ));
 	}
-
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -87,6 +156,9 @@ class ScheduleController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+        $dorm = new Dorm;
+        $sport = new Sport;
+        $location = new Location;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -100,6 +172,9 @@ class ScheduleController extends Controller
 
 		$this->render('update',array(
 			'model'=>$model,
+            'sport'=>$sport,
+            'location'=>$location,
+            'dorm'=>$dorm
 		));
 	}
 
